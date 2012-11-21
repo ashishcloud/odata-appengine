@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
+	<application></application>
+	<version>1</version>
+
+	<!-- Allows App Engine to send multiple requests to one instance in parallel: -->
+	<threadsafe>true</threadsafe>
+
+	<!-- Configure java.util.logging -->
+	<system-properties>
+		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties" />
+
+		<!-- OData params -->
+		<property name="org.odata.appengine.metadata.builder" value="org.odata.appengine.JPAMetadataBuilder" />
+		<property name="org.odata.appengine.metadata.classes" value="org.odata.appengine.test.datastore.kinds.User,org.odata.appengine.test.datastore.kinds.Device,org.odata.appengine.test.datastore.kinds.Location,org.odata.appengine.test.datastore.kinds.Event,org.odata.appengine.test.datastore.kinds.Contact,org.odata.appengine.test.datastore.kinds.Appointment" />
+	</system-properties>
+
+	<sessions-enabled>true</sessions-enabled>
+
+</appengine-web-app>
