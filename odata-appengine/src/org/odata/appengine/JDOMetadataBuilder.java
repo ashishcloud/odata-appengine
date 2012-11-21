@@ -25,7 +25,7 @@ import org.odata4j.exceptions.NotImplementedException;
 
 public class JDOMetadataBuilder implements MetadataBuilder {
 
-	private static final String CONTAINER_NAME = "Container";
+	private static final String CONTAINER = "Container";
 	private static final String CLASSES_PROPNAME = "org.odata.appengine.metadata.classes";
 
 	public EdmDataServices buildMetadata(String namespace) {
@@ -51,7 +51,7 @@ public class JDOMetadataBuilder implements MetadataBuilder {
 			getEdmEntityType(entityTypes, classEntity.getSimpleName()).addNavigationProperties(navigationProperties);
 		}
 
-		EdmEntityContainer.Builder container = EdmEntityContainer.newBuilder().setName(CONTAINER_NAME).setIsDefault(true).addEntitySets(entitySets);
+		EdmEntityContainer.Builder container = EdmEntityContainer.newBuilder().setName(CONTAINER).setIsDefault(true).addEntitySets(entitySets);
 		EdmSchema.Builder schema = EdmSchema.newBuilder().setNamespace(namespace).addEntityTypes(entityTypes).addEntityContainers(container);
 		EdmDataServices.Builder metadata = EdmDataServices.newBuilder().setVersion(ODataConstants.DATA_SERVICE_VERSION).addSchemas(schema);
 
@@ -59,8 +59,8 @@ public class JDOMetadataBuilder implements MetadataBuilder {
 	}
 
 	private List<String> getClassNames() {
-		String prop = System.getProperty(CLASSES_PROPNAME);
-		String[] classes = prop.split(",");
+		String classesProp = System.getProperty(CLASSES_PROPNAME);
+		String[] classes = classesProp.split(",");
 		return Arrays.asList(classes);
 	}
 

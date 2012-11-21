@@ -59,8 +59,8 @@ public class JPAMetadataBuilder implements MetadataBuilder {
 	}
 
 	private List<String> getClassNames() {
-		String prop = System.getProperty(CLASSES_PROPNAME);
-		String[] classes = prop.split(",");
+		String classesProp = System.getProperty(CLASSES_PROPNAME);
+		String[] classes = classesProp.split(",");
 		return Arrays.asList(classes);
 	}
 
