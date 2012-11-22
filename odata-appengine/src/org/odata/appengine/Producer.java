@@ -80,6 +80,8 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 public class Producer implements ODataProducer {
 
+	private static final String ACCESS_CONTROL_KIND = "AccessControl";
+
 	@SuppressWarnings("unchecked")
 	private static final Set<EdmType> SUPPORTED_TYPES = Enumerable.create(EdmSimpleType.BOOLEAN, EdmSimpleType.BYTE, EdmSimpleType.STRING, EdmSimpleType.INT16, EdmSimpleType.INT32, EdmSimpleType.INT64, EdmSimpleType.SINGLE, EdmSimpleType.DOUBLE, EdmSimpleType.DATETIME, EdmSimpleType.BINARY).cast(EdmType.class).toSet();
 
@@ -151,9 +153,6 @@ public class Producer implements ODataProducer {
 
 	@Override
 	public void deleteEntity(String entitySetName, OEntityKey entityKey) {
-		Entity e = findEntity(entitySetName, entityKey);
-		checkAccess(e);
-
 		long id = Long.parseLong(entityKey.asSingleValue().toString());
 		datastore.delete(KeyFactory.createKey(entitySetName, id));
 	}
@@ -542,6 +541,13 @@ public class Producer implements ODataProducer {
 		return null;
 	}
 
+	private void createAccess(Entity e) {
+		UserService userService = UserServiceFactory.getUserService();
+		Entity ac = new Entity(ACCESS_CONTROL_KIND);
+		ac.setProperty("Entity", e);
+		ac.setProperty("Owner", userService.getCurrentUser());
+	}
+
 	private void checkAccess(Entity e) {
 		UserService userService = UserServiceFactory.getUserService();
 		if (!userService.isUserLoggedIn()) {
@@ -554,7 +560,12 @@ public class Producer implements ODataProducer {
 			return;
 		}
 
-		User owner = (User) e.getProperty("owner");
+		Query q = new Query(ACCESS_CONTROL_KIND);
+		Filter filter = new FilterPredicate("Entity", FilterOperator.EQUAL, e);
+		q.setFilter(filter);
+		Entity ac = datastore.prepare(q).asSingleEntity();
+
+		User owner = (User) ac.getProperty("owner");
 		if (owner.compareTo(userService.getCurrentUser()) != 0) {
 			throw new NotAuthorizedException();
 		}
