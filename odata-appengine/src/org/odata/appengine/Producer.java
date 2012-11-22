@@ -222,7 +222,7 @@ public class Producer implements ODataProducer {
 								if (esp.getPropertyName().equals(propName)) {
 									EdmEntitySet eesNavProp = metadata.getEdmEntitySet(navProp.getToRole().getRole());
 									EdmMultiplicity emNavProp = navProp.getRelationship().getEnd2().getMultiplicity();
-									if (emNavProp == EdmMultiplicity.ONE) {
+									if (emNavProp == EdmMultiplicity.ZERO_TO_ONE) {
 										Entity e = datastore.get((Key) propValue);
 										expandedProps.add(toOEntity(eesNavProp, e, queryInfo, propName));
 									} else if (emNavProp == EdmMultiplicity.MANY) {
@@ -315,7 +315,7 @@ public class Producer implements ODataProducer {
 				EdmNavigationProperty enp = eet.findNavigationProperty(link.getRelation());
 				EdmMultiplicity em = enp.getRelationship().getEnd2().getMultiplicity();
 				Entity entity = findEntity(enp.getToRole().getType().getName(), OEntityKey.parse(key));
-				if (em == EdmMultiplicity.ONE) {
+				if (em == EdmMultiplicity.ZERO_TO_ONE) {
 					e.setProperty(link.getRelation(), entity.getKey());
 				} else {
 					e.setProperty(link.getRelation(), new ArrayList<Key>(Arrays.asList(entity.getKey())));
@@ -423,7 +423,7 @@ public class Producer implements ODataProducer {
 		if (navPropValue == null) {
 			return Responses.entities(new ArrayList<OEntity>(), eesNavProp, 0, null);
 		}
-		if (relMultiplicity == EdmMultiplicity.ONE) {
+		if (relMultiplicity == EdmMultiplicity.ZERO_TO_ONE) {
 			try {
 				Entity relatedEntity = datastore.get((Key) navPropValue);
 				return Responses.entity(toOEntity(eesNavProp, relatedEntity, queryInfo, null));
@@ -496,7 +496,7 @@ public class Producer implements ODataProducer {
 		}
 
 		EdmMultiplicity multiplicity = ees.getType().findNavigationProperty(targetNavProp).getToRole().getMultiplicity();
-		if (multiplicity == EdmMultiplicity.ONE) {
+		if (multiplicity == EdmMultiplicity.ZERO_TO_ONE) {
 			entity.setProperty(targetNavProp, newEntity != null ? newEntity.getKey() : null);
 		} else {
 			@SuppressWarnings("unchecked")
