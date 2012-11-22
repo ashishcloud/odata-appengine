@@ -9,10 +9,6 @@
 	<!-- Configure java.util.logging -->
 	<system-properties>
 		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties" />
-
-		<!-- OData params -->
-		<property name="org.odata.appengine.metadata.builder" value="org.odata.appengine.JPAMetadataBuilder" />
-		<property name="org.odata.appengine.metadata.classes" value="org.odata.appengine.test.datastore.kinds.User,org.odata.appengine.test.datastore.kinds.Device,org.odata.appengine.test.datastore.kinds.Location,org.odata.appengine.test.datastore.kinds.Event,org.odata.appengine.test.datastore.kinds.Contact,org.odata.appengine.test.datastore.kinds.Appointment" />
 	</system-properties>
 
 	<sessions-enabled>true</sessions-enabled>

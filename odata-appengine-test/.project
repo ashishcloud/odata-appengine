@@ -3,6 +3,7 @@
 	<name>odata-appengine-test</name>
 	<comment></comment>
 	<projects>
+		<project>odata-appengine</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

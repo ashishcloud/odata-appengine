@@ -68,9 +68,9 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.ShortBlob;
 import com.google.appengine.api.datastore.Text;
@@ -153,7 +153,7 @@ public class Producer implements ODataProducer {
 	public void deleteEntity(String entitySetName, OEntityKey entityKey) {
 		Entity e = findEntity(entitySetName, entityKey);
 		checkAccess(e);
-		
+
 		long id = Long.parseLong(entityKey.asSingleValue().toString());
 		datastore.delete(KeyFactory.createKey(entitySetName, id));
 	}
@@ -537,11 +537,6 @@ public class Producer implements ODataProducer {
 		throw new NotImplementedException();
 	}
 
-	@Override
-	public <TExtension extends OExtension<ODataProducer>> TExtension findExtension(Class<TExtension> arg0) {
-		throw new NotImplementedException();
-	}
-
 	private void checkAccess(Entity e) {
 		UserService userService = UserServiceFactory.getUserService();
 		if (!userService.isUserLoggedIn()) {
@@ -558,5 +553,10 @@ public class Producer implements ODataProducer {
 		if (owner.compareTo(userService.getCurrentUser()) != 0) {
 			throw new NotAuthorizedException();
 		}
+	}
+
+	@Override
+	public <TExtension extends OExtension<ODataProducer>> TExtension findExtension(Class<TExtension> arg0) {
+		return null;
 	}
 }

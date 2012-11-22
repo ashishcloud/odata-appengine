@@ -2,12 +2,12 @@ package org.odata.appengine.test.datastore.kinds;
 
 import java.util.Date;
 
-import javax.jdo.annotations.PersistenceCapable;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@PersistenceCapable
+@Entity
 public class Location {
 
 	@Id
