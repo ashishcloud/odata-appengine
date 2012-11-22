@@ -537,6 +537,11 @@ public class Producer implements ODataProducer {
 		throw new NotImplementedException();
 	}
 
+	@Override
+	public <TExtension extends OExtension<ODataProducer>> TExtension findExtension(Class<TExtension> arg0) {
+		return null;
+	}
+
 	private void checkAccess(Entity e) {
 		UserService userService = UserServiceFactory.getUserService();
 		if (!userService.isUserLoggedIn()) {
@@ -553,10 +558,5 @@ public class Producer implements ODataProducer {
 		if (owner.compareTo(userService.getCurrentUser()) != 0) {
 			throw new NotAuthorizedException();
 		}
-	}
-
-	@Override
-	public <TExtension extends OExtension<ODataProducer>> TExtension findExtension(Class<TExtension> arg0) {
-		return null;
 	}
 }

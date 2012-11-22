@@ -22,7 +22,7 @@ public class Appointment {
 
 	private Date endDate;
 
-	private User owner;
+	private User user;
 
 	public Appointment() {
 	}
@@ -67,11 +67,12 @@ public class Appointment {
 		this.endDate = endDate;
 	}
 
-	public User getOwner() {
-		return owner;
+	public User getUser() {
+		return user;
 	}
 
-	public void setOwner(User owner) {
-		this.owner = owner;
+	public void setUser(User user) {
+		this.user = user;
 	}
+
 }

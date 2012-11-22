@@ -16,7 +16,7 @@ public class Device {
 
 	private String identifier;
 
-	private User owner;
+	private User user;
 
 	public Device() {
 	}
@@ -45,11 +45,11 @@ public class Device {
 		this.identifier = identifier;
 	}
 
-	public User getOwner() {
-		return owner;
+	public User getUser() {
+		return user;
 	}
 
-	public void setOwner(User owner) {
-		this.owner = owner;
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

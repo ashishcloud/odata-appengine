@@ -18,7 +18,7 @@ public class Contact {
 
 	private String email;
 
-	private User owner;
+	private User user;
 
 	public Contact() {
 	}
@@ -55,11 +55,11 @@ public class Contact {
 		this.email = email;
 	}
 
-	public User getOwner() {
-		return owner;
+	public User getUser() {
+		return user;
 	}
 
-	public void setOwner(User owner) {
-		this.owner = owner;
+	public void setUser(User user) {
+		this.user = user;
 	}
 }
