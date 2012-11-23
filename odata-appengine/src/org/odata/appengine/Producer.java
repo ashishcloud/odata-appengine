@@ -29,7 +29,6 @@ import org.odata4j.edm.EdmNavigationProperty;
 import org.odata4j.edm.EdmProperty;
 import org.odata4j.edm.EdmSimpleType;
 import org.odata4j.edm.EdmType;
-import org.odata4j.exceptions.NotAuthorizedException;
 import org.odata4j.exceptions.NotFoundException;
 import org.odata4j.exceptions.NotImplementedException;
 import org.odata4j.expression.AndExpression;
@@ -74,13 +73,8 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.ShortBlob;
 import com.google.appengine.api.datastore.Text;
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 
 public class Producer implements ODataProducer {
-
-	private static final String ACCESS_CONTROL_KIND = "AccessControl";
 
 	@SuppressWarnings("unchecked")
 	private static final Set<EdmType> SUPPORTED_TYPES = Enumerable.create(EdmSimpleType.BOOLEAN, EdmSimpleType.BYTE, EdmSimpleType.STRING, EdmSimpleType.INT16, EdmSimpleType.INT32, EdmSimpleType.INT64, EdmSimpleType.SINGLE, EdmSimpleType.DOUBLE, EdmSimpleType.DATETIME, EdmSimpleType.BINARY).cast(EdmType.class).toSet();
@@ -539,35 +533,5 @@ public class Producer implements ODataProducer {
 	@Override
 	public <TExtension extends OExtension<ODataProducer>> TExtension findExtension(Class<TExtension> arg0) {
 		return null;
-	}
-
-	private void createAccess(Entity e) {
-		UserService userService = UserServiceFactory.getUserService();
-		Entity ac = new Entity(ACCESS_CONTROL_KIND);
-		ac.setProperty("Entity", e);
-		ac.setProperty("Owner", userService.getCurrentUser());
-	}
-
-	private void checkAccess(Entity e) {
-		UserService userService = UserServiceFactory.getUserService();
-		if (!userService.isUserLoggedIn()) {
-			throw new NotAuthorizedException();
-		}
-		if (e == null) {
-			return;
-		}
-		if (userService.isUserAdmin()) {
-			return;
-		}
-
-		Query q = new Query(ACCESS_CONTROL_KIND);
-		Filter filter = new FilterPredicate("Entity", FilterOperator.EQUAL, e);
-		q.setFilter(filter);
-		Entity ac = datastore.prepare(q).asSingleEntity();
-
-		User owner = (User) ac.getProperty("owner");
-		if (owner.compareTo(userService.getCurrentUser()) != 0) {
-			throw new NotAuthorizedException();
-		}
 	}
 }
