@@ -14,9 +14,13 @@ public class Event {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String desc;
+	private String name;
 
-	private Date time;
+	private String description;
+
+	private Date startDate;
+
+	private Date endDate;
 
 	private Device device;
 
@@ -28,20 +32,36 @@ public class Event {
 		this.id = id;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getName() {
+		return name;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public Date getTime() {
-		return time;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setTime(Date time) {
-		this.time = time;
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	public Device getDevice() {
